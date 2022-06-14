@@ -17,4 +17,6 @@ public interface UserService {
 	Result update(UpdateUserRequest updateUserRequest);
 	DataResult<User>getById(ReadUserResponse readUserResponse);
 	DataResult<List<GetAllUsersResponse>> getAll();
+	DataResult<List<GetAllUsersResponse>> getAll(int pageNo,int pageSize);
+
 }

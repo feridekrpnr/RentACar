@@ -29,7 +29,7 @@ public class UsersController {
 	
 	
 	@PostMapping("/add")
-	public Result add( @RequestBody  CreateUserRequest createUserRequest) {
+	public Result add( @RequestBody @Valid CreateUserRequest createUserRequest) {
 		return this.userService.add(createUserRequest);
 	}
 	
@@ -52,6 +52,11 @@ public class UsersController {
 	
 	public DataResult<List<GetAllUsersResponse>> getAll() {
 		return this.userService.getAll();
+	}
+	
+	@GetMapping("/getAllByPage")
+	DataResult<List<GetAllUsersResponse>> getAll(int pageNo,int pageSize) {
+		return this.userService.getAll(pageNo,pageSize);
 	}
 
 }

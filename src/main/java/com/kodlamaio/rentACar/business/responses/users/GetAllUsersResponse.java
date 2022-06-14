@@ -14,4 +14,5 @@ public class GetAllUsersResponse {
 	private String tcNo;
 	private String eMail;
 	private String password;
+	
 }
