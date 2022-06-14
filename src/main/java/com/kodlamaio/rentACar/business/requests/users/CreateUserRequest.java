@@ -37,4 +37,6 @@ public class CreateUserRequest {
 	@NotEmpty
 	@NotNull
 	private String password;
+	
+	private int dateOfBirth;
 }

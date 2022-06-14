@@ -8,6 +8,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.kodlamaio.rentACar.business.abstracts.UserCheckService;
 import com.kodlamaio.rentACar.business.abstracts.UserService;
 import com.kodlamaio.rentACar.business.requests.users.CreateUserRequest;
 import com.kodlamaio.rentACar.business.requests.users.DeleteUserRequest;
@@ -31,16 +32,21 @@ public class UserManager implements UserService {
 
 	@Autowired
 	private UserRepository userRepository;
+	@Autowired
+	private UserCheckService userCheckService;
 
 	@Override
 	public Result add(CreateUserRequest createUserRequest) {
+
 		checkIfUserExistTcNo(createUserRequest.getTcNo());
-
 		User user = this.mapper.forRequest().map(createUserRequest, User.class);
-		user.setEMail(createUserRequest.getEMail());
+		if (userCheckService.CheckIfRealPerson(user)) {
+			this.userRepository.save(user);
+			return new SuccessResult("USER.ADDED");
+		} else {
+			throw new BusinessException("USER NOT ADDED");
+		}
 
-		this.userRepository.save(user);
-		return new SuccessResult("USER.ADDED");
 	}
 
 	@Override
@@ -82,16 +88,12 @@ public class UserManager implements UserService {
 
 	@Override
 	public DataResult<List<GetAllUsersResponse>> getAll(int pageNo, int pageSize) {
-		Pageable pageable = PageRequest.of(pageNo-1, pageSize);
+		Pageable pageable = PageRequest.of(pageNo - 1, pageSize);
 		List<User> users = this.userRepository.findAll(pageable).getContent();
 		List<GetAllUsersResponse> response = users.stream()
 				.map(user -> this.mapper.forResponse().map(user, GetAllUsersResponse.class))
 				.collect(Collectors.toList());
 		return new SuccessDataResult<List<GetAllUsersResponse>>(response);
-	
-		
-		
-	
 
 	}
 
