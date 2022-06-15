@@ -66,7 +66,7 @@ public class UserManager implements UserService {
 	@Override
 	public DataResult<User> getById(ReadUserResponse readUserResponse) {
 		User item = this.mapper.forRequest().map(readUserResponse, User.class);
-		item = userRepository.findById(readUserResponse.getId()).get();
+		item = userRepository.findById(readUserResponse.getId());
 		return new SuccessDataResult<User>(item);
 	}
 

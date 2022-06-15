@@ -14,6 +14,7 @@ import com.kodlamaio.rentACar.business.requests.rentals.DeleteRentalRequest;
 import com.kodlamaio.rentACar.business.requests.rentals.UpdateRentalRequest;
 import com.kodlamaio.rentACar.business.responses.rentals.GetAllRentalsResponse;
 import com.kodlamaio.rentACar.business.responses.rentals.ReadRentalResponse;
+import com.kodlamaio.rentACar.core.utilities.adapters.FindexServiceAdapter;
 import com.kodlamaio.rentACar.core.utilities.mapping.ModelMapperService;
 import com.kodlamaio.rentACar.core.utilities.results.DataResult;
 import com.kodlamaio.rentACar.core.utilities.results.ErrorResult;
@@ -22,8 +23,10 @@ import com.kodlamaio.rentACar.core.utilities.results.SuccessDataResult;
 import com.kodlamaio.rentACar.core.utilities.results.SuccessResult;
 import com.kodlamaio.rentACar.dataAccess.abstracts.CarRepository;
 import com.kodlamaio.rentACar.dataAccess.abstracts.RentalRepository;
+import com.kodlamaio.rentACar.dataAccess.abstracts.UserRepository;
 import com.kodlamaio.rentACar.entities.concretes.Car;
 import com.kodlamaio.rentACar.entities.concretes.Rental;
+import com.kodlamaio.rentACar.entities.concretes.User;
 
 @Service
 public class RentalManager implements RentalService {
@@ -33,21 +36,36 @@ public class RentalManager implements RentalService {
 	private CarRepository carRepository;
 	@Autowired
 	private ModelMapperService mapper;
+	@Autowired
+	private FindexServiceAdapter adapter;
+	@Autowired
+	private UserRepository userRepository;
 
 	@Override
 	public Result add(CreateRentalRequest createRentalRequest) {
 		if (checkIfCarState(createRentalRequest.getCarId())) {
 			Rental rental = this.mapper.forRequest().map(createRentalRequest, Rental.class);
+
 			if (this.checkIfDatesAreCorrect(rental.getPickupDate(), rental.getReturnDate())) {
 				long dayDifference = (rental.getReturnDate().getTime() - rental.getPickupDate().getTime());
 				long time = TimeUnit.DAYS.convert(dayDifference, TimeUnit.MILLISECONDS);
 				Car car = this.carRepository.findById(createRentalRequest.getCarId()).get();
-				car.setStatusInformation(3);
+				User user = this.userRepository.findById(createRentalRequest.getUserId());
 				rental.setTotalDays((int) time);
 				double totalPrice = car.getDailyPrice() * time;
 				rental.setTotalPrice(totalPrice);
-				this.rentalRepository.save(rental);
-				return new SuccessResult("CAR.RENTED");
+				if (!rental.getPickupCity().equals(rental.getReturnCity())) {
+
+					rental.setTotalPrice(rental.getTotalPrice() + 750);
+				}
+				if (checkFindexMinValue(car.getMinFindexScore(), user.getTcNo())) {
+					rentalRepository.save(rental);
+					car.setStatusInformation(3);
+					return new Result(true, "eklendi");
+
+				} else {
+					return new Result(false, "findex puanı yetersiz");
+				}
 
 			}
 		}
@@ -109,6 +127,16 @@ public class RentalManager implements RentalService {
 			return true;
 		}
 		return false;
+	}
+
+	public boolean checkFindexMinValue(int score, String tc) {
+		boolean state = false;
+		if (adapter.CheckFindexScore(tc) > score) {
+			state = true;
+		} else {
+			state = false;
+		}
+		return state;
 	}
 
 }

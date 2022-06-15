@@ -20,7 +20,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-
 @Table(name = "rentals")
 public class Rental {
 	@Id()
@@ -34,6 +33,12 @@ public class Rental {
 	@Column(name = "return_date")
 	private Date returnDate;
 	
+	@Column(name="pickup_city")
+	private String pickupCity;
+	
+	@Column(name="return_city")
+	private String returnCity;
+	
 	@Column(name = "total_days")
 	private int totalDays;
 	
@@ -43,5 +48,9 @@ public class Rental {
 	@ManyToOne
 	@JoinColumn(name = "car_id")
 	private Car car;
+	
+	@ManyToOne
+	@JoinColumn(name="user_id")
+	private User userId;
 	
 }

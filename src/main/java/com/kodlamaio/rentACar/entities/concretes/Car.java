@@ -18,7 +18,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler", "maintenances", "rentals","additionalServices"})
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler", "maintenances", "rentals"})
 @Entity
 @Data
 @NoArgsConstructor
@@ -44,6 +44,9 @@ public class Car {
 
 	@Column(name = "statusInformation")
 	private int statusInformation;
+	
+	@Column(name="min_findex_score")
+	private int minFindexScore;
 
 	@ManyToOne
 	@JoinColumn(name = "brand_id")
@@ -59,11 +62,6 @@ public class Car {
 	@OneToMany(mappedBy = "car")
 	List<Rental> rentals;
 	
-	@Column(name="pick_up_city_id")
-	private int pickUpCityId; 
-	
-	@Column(name="return_city_id")
-	private int returnCityId;
 	
 	
 }

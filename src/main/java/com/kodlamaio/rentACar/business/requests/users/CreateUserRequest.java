@@ -32,7 +32,7 @@ public class CreateUserRequest {
 	@NotBlank
 	@NotEmpty
 	@NotNull
-	private String eMail;
+	private String email;
 	@NotBlank
 	@NotEmpty
 	@NotNull
