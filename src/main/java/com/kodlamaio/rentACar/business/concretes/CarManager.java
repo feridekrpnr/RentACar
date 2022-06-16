@@ -1,5 +1,6 @@
 package com.kodlamaio.rentACar.business.concretes;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -10,6 +11,7 @@ import com.kodlamaio.rentACar.business.abstracts.CarService;
 import com.kodlamaio.rentACar.business.requests.cars.CreateCarRequest;
 import com.kodlamaio.rentACar.business.requests.cars.DeleteCarRequest;
 import com.kodlamaio.rentACar.business.requests.cars.UpdateCarRequest;
+import com.kodlamaio.rentACar.business.responses.cars.GetAllCarsMinFindexScoreResponse;
 import com.kodlamaio.rentACar.business.responses.cars.GetAllCarsResponse;
 import com.kodlamaio.rentACar.business.responses.cars.ReadCarResponse;
 import com.kodlamaio.rentACar.core.utilities.exceptions.BusinessException;
@@ -62,7 +64,6 @@ public class CarManager implements CarService {
 		Car item = this.mapper.forResponse().map(readCarResponse, Car.class);
 		item = carRepository.findById(readCarResponse.getId()).get();
 		return new SuccessDataResult<Car>(item);
-
 	}
 
 	@Override
@@ -80,6 +81,18 @@ public class CarManager implements CarService {
 			throw new BusinessException("ERROR");
 		}
 	}
+
+	@Override
+	public DataResult<List<GetAllCarsMinFindexScoreResponse>> getAllFindex() {
+		List<Car> cars = this.carRepository.findAll();
+		List<GetAllCarsMinFindexScoreResponse> response = cars.stream()
+				.map(car-> this.mapper.forResponse().map(car, GetAllCarsMinFindexScoreResponse.class))
+				.sorted(Comparator.comparing(GetAllCarsMinFindexScoreResponse::getMinFindexScore)).collect(Collectors.toList());
+				
+		return new SuccessDataResult<List<GetAllCarsMinFindexScoreResponse>>(response);
+	}
+
+	
 
 	
 

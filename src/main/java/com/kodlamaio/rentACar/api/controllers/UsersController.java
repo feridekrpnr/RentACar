@@ -1,5 +1,6 @@
 package com.kodlamaio.rentACar.api.controllers;
 
+import java.rmi.RemoteException;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -15,6 +16,7 @@ import com.kodlamaio.rentACar.business.abstracts.UserService;
 import com.kodlamaio.rentACar.business.requests.users.CreateUserRequest;
 import com.kodlamaio.rentACar.business.requests.users.DeleteUserRequest;
 import com.kodlamaio.rentACar.business.requests.users.UpdateUserRequest;
+import com.kodlamaio.rentACar.business.responses.users.GetAllUsersFilterResponse;
 import com.kodlamaio.rentACar.business.responses.users.GetAllUsersResponse;
 import com.kodlamaio.rentACar.business.responses.users.ReadUserResponse;
 import com.kodlamaio.rentACar.core.utilities.results.DataResult;
@@ -29,7 +31,7 @@ public class UsersController {
 	
 	
 	@PostMapping("/add")
-	public Result add( @RequestBody @Valid CreateUserRequest createUserRequest) {
+	public Result add( @RequestBody @Valid CreateUserRequest createUserRequest) throws NumberFormatException, RemoteException {
 		return this.userService.add(createUserRequest);
 	}
 	
@@ -58,5 +60,8 @@ public class UsersController {
 	DataResult<List<GetAllUsersResponse>> getAll(int pageNo,int pageSize) {
 		return this.userService.getAll(pageNo,pageSize);
 	}
-
+	@GetMapping("/getAllFilter")
+	DataResult<List<GetAllUsersFilterResponse>> getAllFilterUsers() {
+		return this.userService.getAllFilterUsers();
+	}
 }

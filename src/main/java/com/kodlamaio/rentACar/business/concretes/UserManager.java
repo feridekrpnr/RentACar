@@ -1,5 +1,6 @@
 package com.kodlamaio.rentACar.business.concretes;
 
+import java.rmi.RemoteException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -13,6 +14,7 @@ import com.kodlamaio.rentACar.business.abstracts.UserService;
 import com.kodlamaio.rentACar.business.requests.users.CreateUserRequest;
 import com.kodlamaio.rentACar.business.requests.users.DeleteUserRequest;
 import com.kodlamaio.rentACar.business.requests.users.UpdateUserRequest;
+import com.kodlamaio.rentACar.business.responses.users.GetAllUsersFilterResponse;
 import com.kodlamaio.rentACar.business.responses.users.GetAllUsersResponse;
 import com.kodlamaio.rentACar.business.responses.users.ReadUserResponse;
 import com.kodlamaio.rentACar.core.utilities.exceptions.BusinessException;
@@ -36,7 +38,7 @@ public class UserManager implements UserService {
 	private UserCheckService userCheckService;
 
 	@Override
-	public Result add(CreateUserRequest createUserRequest) {
+	public Result add(CreateUserRequest createUserRequest) throws NumberFormatException, RemoteException {
 
 		checkIfUserExistTcNo(createUserRequest.getTcNo());
 		User user = this.mapper.forRequest().map(createUserRequest, User.class);
@@ -76,6 +78,7 @@ public class UserManager implements UserService {
 		List<GetAllUsersResponse> response = users.stream()
 				.map(user -> this.mapper.forResponse().map(user, GetAllUsersResponse.class))
 				.collect(Collectors.toList());
+
 		return new SuccessDataResult<List<GetAllUsersResponse>>(response);
 	}
 
@@ -93,8 +96,20 @@ public class UserManager implements UserService {
 		List<GetAllUsersResponse> response = users.stream()
 				.map(user -> this.mapper.forResponse().map(user, GetAllUsersResponse.class))
 				.collect(Collectors.toList());
+		
 		return new SuccessDataResult<List<GetAllUsersResponse>>(response);
 
+	}
+
+    //stream api 
+	@Override
+	public DataResult<List<GetAllUsersFilterResponse>> getAllFilterUsers() {
+		List<User> users = this.userRepository.findAll();
+		List<GetAllUsersFilterResponse> response = users.stream()
+				.map(user -> this.mapper.forResponse().map(user, GetAllUsersFilterResponse.class))
+				.filter(user -> (user.getFirstName().contains("a") && (user.getDateOfBirth() > 1990)))
+				.collect(Collectors.toList());
+		return new SuccessDataResult<List<GetAllUsersFilterResponse>>(response);
 	}
 
 }

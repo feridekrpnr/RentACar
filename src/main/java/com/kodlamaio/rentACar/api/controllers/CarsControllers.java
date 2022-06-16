@@ -15,6 +15,7 @@ import com.kodlamaio.rentACar.business.abstracts.CarService;
 import com.kodlamaio.rentACar.business.requests.cars.CreateCarRequest;
 import com.kodlamaio.rentACar.business.requests.cars.DeleteCarRequest;
 import com.kodlamaio.rentACar.business.requests.cars.UpdateCarRequest;
+import com.kodlamaio.rentACar.business.responses.cars.GetAllCarsMinFindexScoreResponse;
 import com.kodlamaio.rentACar.business.responses.cars.GetAllCarsResponse;
 import com.kodlamaio.rentACar.business.responses.cars.ReadCarResponse;
 import com.kodlamaio.rentACar.core.utilities.results.DataResult;
@@ -51,5 +52,8 @@ public class CarsControllers {
 	public DataResult<List<GetAllCarsResponse>> getAll() {
 		return this.carService.getAll();
 	}
-
+	@GetMapping("/getAllFindex")
+	public DataResult<List<GetAllCarsMinFindexScoreResponse>> getAllFindex() {
+		return this.carService.getAllFindex();
+	}
 }

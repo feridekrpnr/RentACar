@@ -5,6 +5,7 @@ import java.util.List;
 import com.kodlamaio.rentACar.business.requests.cars.CreateCarRequest;
 import com.kodlamaio.rentACar.business.requests.cars.DeleteCarRequest;
 import com.kodlamaio.rentACar.business.requests.cars.UpdateCarRequest;
+import com.kodlamaio.rentACar.business.responses.cars.GetAllCarsMinFindexScoreResponse;
 import com.kodlamaio.rentACar.business.responses.cars.GetAllCarsResponse;
 import com.kodlamaio.rentACar.business.responses.cars.ReadCarResponse;
 import com.kodlamaio.rentACar.core.utilities.results.DataResult;
@@ -18,4 +19,5 @@ public interface CarService {
 	Result update(UpdateCarRequest updateCarRequest);
 	DataResult<Car> getById(ReadCarResponse readCarResponse);
 	DataResult<List<GetAllCarsResponse>> getAll();	
+	DataResult<List<GetAllCarsMinFindexScoreResponse>> getAllFindex();
 }
