@@ -56,6 +56,8 @@ public class AdditionalServiceManager implements AdditionalServiceService {
 				AdditionalService.class);
 		additionalServiceRepository.save(addServiceToUpdate);
 		return new SuccessResult(updateAdditionalServiceRequest.getId() + "li ek özellik başarıyla güncellenmiştir.");
+		
+		
 	}
 
 	@Override

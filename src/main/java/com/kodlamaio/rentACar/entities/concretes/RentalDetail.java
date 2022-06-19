@@ -1,7 +1,5 @@
 package com.kodlamaio.rentACar.entities.concretes;
 
-
-
 import java.util.List;
 
 import javax.persistence.Column;
@@ -19,29 +17,31 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
-@Table(name="additional_service")
-
-public class AdditionalService {
-	@Id()
+@Table(name = "rentalDetails")
+public class RentalDetail {
+	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	
 	@Column(name="id")
-	private int id;
+	private int id;	
 	
-	@Column(name="day")
-	private int day;
-	
-	@Column(name="total_price")
-	private double totalPrice;
+	@Column(name="sumTotalPrice")
+	private double sumTotalPrice;
 	
 	@ManyToOne
-	@JoinColumn(name = "additionalItem_id")
-	private AdditionalItem additionalItem;
+	@JoinColumn(name="rental_id")	
+	private Rental rental;
 	
-	@OneToMany(mappedBy = "additionalService")
-	private List<RentalDetail> rentalDetails;
+	@ManyToOne
+	@JoinColumn(name="additionalService_id")
+	private AdditionalService additionalService;
+	
+	@OneToMany(mappedBy = "rentalDetail")
+	List<Invoice>invoices;
+	
 	
 	
 }
