@@ -97,7 +97,7 @@ public class RentalManager implements RentalService {
 	@Override
 	public DataResult<Rental> getById(ReadRentalResponse readRentalResponse) {
 		Rental item = this.mapper.forResponse().map(readRentalResponse, Rental.class);
-		item = this.rentalRepository.findById(readRentalResponse.getId()).get();
+		item = this.rentalRepository.findById(readRentalResponse.getId());
 		return new SuccessDataResult<Rental>(item);
 	}
 

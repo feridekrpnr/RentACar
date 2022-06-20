@@ -8,8 +8,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CreateAdditionalServiceRequest {
+	private int id;
 	private int day;
 	private int additionalItemId;
-	private double totalPrice;
+	
 
 }

@@ -33,14 +33,13 @@ public class AdditionalServiceManager implements AdditionalServiceService {
 
 	@Override
 	public Result add(CreateAdditionalServiceRequest createAdditionalServiceRequest) {
-		AdditionalService addService = this.mapper.forRequest().map(createAdditionalServiceRequest,
+		AdditionalService additionalService = this.mapper.forRequest().map(createAdditionalServiceRequest,
 				AdditionalService.class);
-		AdditionalItem item = additionalItemRepository.findById(createAdditionalServiceRequest.getAdditionalItemId())
-				.get();
+		AdditionalItem item = additionalItemRepository.findById(createAdditionalServiceRequest.getAdditionalItemId()).get();
 		double price = item.getPrice();
-		int day = addService.getDay();
-		addService.setTotalPrice(price * day);
-		this.additionalServiceRepository.save(addService);
+		int day = additionalService.getDay();
+		additionalService.setTotalPrice(price*day);
+		this.additionalServiceRepository.save(additionalService);
 		return new SuccessResult(" id'li ek özellik başarıyla eklenmiştir.");
 	}
 
@@ -63,7 +62,7 @@ public class AdditionalServiceManager implements AdditionalServiceService {
 	@Override
 	public DataResult<AdditionalService> getById(ReadAdditionalServicesResponse readAdditionalServicesResponse) {
 		AdditionalService item = this.mapper.forResponse().map(readAdditionalServicesResponse, AdditionalService.class);
-		item = additionalServiceRepository.findById(readAdditionalServicesResponse.getId()).get();
+		item = additionalServiceRepository.findById(readAdditionalServicesResponse.getId());
 		return new SuccessDataResult<AdditionalService>(item);
 	}
 
