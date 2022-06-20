@@ -52,8 +52,8 @@ public class Rental {
 	private Car car;
 	
 	@ManyToOne
-	@JoinColumn(name="user_id")
-	private User userId;
+	@JoinColumn(name="customer_id")
+	private Customer customerId;
 	
 	@OneToMany(mappedBy ="rental" )
 	private List<RentalDetail> rentalDetails;

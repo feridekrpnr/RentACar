@@ -23,10 +23,10 @@ import com.kodlamaio.rentACar.core.utilities.results.SuccessDataResult;
 import com.kodlamaio.rentACar.core.utilities.results.SuccessResult;
 import com.kodlamaio.rentACar.dataAccess.abstracts.CarRepository;
 import com.kodlamaio.rentACar.dataAccess.abstracts.RentalRepository;
-import com.kodlamaio.rentACar.dataAccess.abstracts.UserRepository;
+import com.kodlamaio.rentACar.dataAccess.abstracts.CustomerRepository;
 import com.kodlamaio.rentACar.entities.concretes.Car;
 import com.kodlamaio.rentACar.entities.concretes.Rental;
-import com.kodlamaio.rentACar.entities.concretes.User;
+import com.kodlamaio.rentACar.entities.concretes.Customer;
 
 @Service
 public class RentalManager implements RentalService {
@@ -39,7 +39,7 @@ public class RentalManager implements RentalService {
 	@Autowired
 	private FindexServiceAdapter adapter;
 	@Autowired
-	private UserRepository userRepository;
+	private CustomerRepository customerRepository;
 
 	@Override
 	public Result add(CreateRentalRequest createRentalRequest) {
@@ -50,7 +50,7 @@ public class RentalManager implements RentalService {
 				long dayDifference = (rental.getReturnDate().getTime() - rental.getPickupDate().getTime());
 				long time = TimeUnit.DAYS.convert(dayDifference, TimeUnit.MILLISECONDS);
 				Car car = this.carRepository.findById(createRentalRequest.getCarId()).get();
-				User user = this.userRepository.findById(createRentalRequest.getUserId());
+				Customer customer = this.customerRepository.findById(createRentalRequest.getUserId());
 				rental.setTotalDays((int) time);
 				double totalPrice = car.getDailyPrice() * time;
 				rental.setTotalPrice(totalPrice);
@@ -58,7 +58,7 @@ public class RentalManager implements RentalService {
 
 					rental.setTotalPrice(rental.getTotalPrice() + 750);
 				}
-				if (checkFindexMinValue(car.getMinFindexScore(), user.getTcNo())) {
+				if (checkFindexMinValue(car.getMinFindexScore(), customer.getTcNo())) {
 					rentalRepository.save(rental);
 					car.setStatusInformation(3);
 					return new Result(true, "eklendi");
