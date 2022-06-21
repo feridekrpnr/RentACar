@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.kodlamaio.rentACar.business.requests.invoices.CreateInvoiceRequest;
 import com.kodlamaio.rentACar.business.requests.invoices.DeleteInvoiceRequest;
+import com.kodlamaio.rentACar.business.requests.invoices.StateUpdateInvoiceRequest;
 import com.kodlamaio.rentACar.business.requests.invoices.UpdateInvoiceRequest;
 import com.kodlamaio.rentACar.business.responses.invoices.GetAllInvoicesResponse;
 import com.kodlamaio.rentACar.business.responses.invoices.ReadInvoiceResponse;
@@ -18,4 +19,7 @@ public interface InvoiceService {
 	Result update(UpdateInvoiceRequest updateInvoiceRequest);
 	DataResult<List<GetAllInvoicesResponse>> getAll();
 	DataResult<Invoice> getById(ReadInvoiceResponse readInvoiceResponse);
+    boolean checkIfInvoicesNumber(String invoiceNumber);
+    Result cancelInvoice(StateUpdateInvoiceRequest stateUpdateInvoiceRequest );
+
 }

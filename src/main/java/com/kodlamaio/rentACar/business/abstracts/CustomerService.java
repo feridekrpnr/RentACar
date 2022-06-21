@@ -22,4 +22,7 @@ public interface CustomerService {
 	DataResult<List<GetAllCustomersResponse>> getAll(int pageNo,int pageSize);
 	DataResult<List<GetAllCustomersFilterResponse>> getAllFilterCustomers();
 
+	
+	DataResult<String>GetCustomerAddressById(ReadCustomerResponse readCustomerResponse);
+	DataResult<String>GetCustomerInvoiceAddressById(ReadCustomerResponse readCustomerResponse);
 }

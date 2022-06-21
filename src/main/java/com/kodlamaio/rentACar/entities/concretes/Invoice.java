@@ -23,10 +23,13 @@ public class Invoice {
   @Id()
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name="id")
-  
   private int id;
+  
   @Column(name="invoice_number")
   String invoiceNumber;
+  
+  @Column(name="state")
+  private boolean state;
   
   @ManyToOne
   @JoinColumn(name="rentalDetails_id")

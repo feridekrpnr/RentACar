@@ -24,6 +24,7 @@ import com.kodlamaio.rentACar.core.utilities.results.Result;
 import com.kodlamaio.rentACar.core.utilities.results.SuccessDataResult;
 import com.kodlamaio.rentACar.core.utilities.results.SuccessResult;
 import com.kodlamaio.rentACar.dataAccess.abstracts.CustomerRepository;
+import com.kodlamaio.rentACar.entities.concretes.Address;
 import com.kodlamaio.rentACar.entities.concretes.Customer;
 
 @Service
@@ -110,6 +111,22 @@ public class CustomerManager implements CustomerService {
 				.filter(user -> (user.getFirstName().contains("a") && (user.getDateOfBirth() > 1990)))
 				.collect(Collectors.toList());
 		return new SuccessDataResult<List<GetAllCustomersFilterResponse>>(response);
+	}
+
+	@Override
+	public DataResult<String> GetCustomerAddressById(ReadCustomerResponse readCustomerResponse) {
+		Customer customer = this.mapper.forResponse().map(readCustomerResponse, Customer.class);
+		Address address=customer.getAddress();
+		String data = address.getAddress();
+		return new DataResult<String>(data,true);
+	}
+
+	@Override
+	public DataResult<String> GetCustomerInvoiceAddressById(ReadCustomerResponse readCustomerResponse) {
+		Customer customer = this.mapper.forResponse().map(readCustomerResponse, Customer.class);
+		Address address=customer.getAddress();
+		String data =address.getInvoiceAddress();
+		return new DataResult<String>(data, true);
 	}
 
 }

@@ -65,4 +65,12 @@ public class CustomersController {
 	DataResult<List<GetAllCustomersFilterResponse>> getAllFilterCustomers() {
 		return this.customerService.getAllFilterCustomers();
 	}
+	@GetMapping("/getCustomerAddressById")
+	DataResult<String>getCustomerAddressById(ReadCustomerResponse readCustomerResponse) {
+		return this.customerService.GetCustomerAddressById(readCustomerResponse);
+	}
+	@GetMapping("/getCustomerInvoiceAddressById")
+	DataResult<String>getCustomerInvoiceAddressById(ReadCustomerResponse readCustomerResponse) {
+		return this.customerService.GetCustomerInvoiceAddressById(readCustomerResponse);
+	}
 }

@@ -31,6 +31,9 @@ public class AddressManager implements AddressService {
 	@Override
 	public Result add(CreateAddressRequest createAddressRequest) {
 		Address address = this.modelMapperService.forRequest().map(createAddressRequest, Address.class);
+		if(address.getInvoiceAddress() == null || address.getInvoiceAddress() == "") {
+			address.setInvoiceAddress(address.getAddress());
+		}
 		this.addressRepository.save(address);
 		return new SuccessResult("ADRES.ADDED");
 	}
@@ -66,5 +69,6 @@ public class AddressManager implements AddressService {
 		item = addressRepository.findById(readAddressResponse.getId()).get();
 		return new SuccessDataResult<Address>(item);
 	}
+	
 
 }

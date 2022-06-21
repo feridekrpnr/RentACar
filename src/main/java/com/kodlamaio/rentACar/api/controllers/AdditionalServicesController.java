@@ -41,7 +41,7 @@ public class AdditionalServicesController {
 	}
 
 	@PostMapping("/delete")
-	public Result update(@RequestBody DeleteAdditionalServiceRequest deleteAdditionalServiceRequest) {
+	public Result delete(@RequestBody DeleteAdditionalServiceRequest deleteAdditionalServiceRequest) {
 		additionalService.delete(deleteAdditionalServiceRequest);
 		return new SuccessResult();
 	}

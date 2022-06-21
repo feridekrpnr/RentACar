@@ -16,7 +16,7 @@ public class CreateRentalRequest {
 	private int totalDays;
 	private String pickupCity;
 	private String returnCity;
-	private int userId;
+	private int customerId;
 
 	
 	

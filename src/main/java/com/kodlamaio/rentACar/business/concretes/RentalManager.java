@@ -50,7 +50,7 @@ public class RentalManager implements RentalService {
 				long dayDifference = (rental.getReturnDate().getTime() - rental.getPickupDate().getTime());
 				long time = TimeUnit.DAYS.convert(dayDifference, TimeUnit.MILLISECONDS);
 				Car car = this.carRepository.findById(createRentalRequest.getCarId()).get();
-				Customer customer = this.customerRepository.findById(createRentalRequest.getUserId());
+				Customer customer = this.customerRepository.findById(createRentalRequest.getCustomerId());
 				rental.setTotalDays((int) time);
 				double totalPrice = car.getDailyPrice() * time;
 				rental.setTotalPrice(totalPrice);
