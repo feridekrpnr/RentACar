@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.validation.Valid;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,17 +24,25 @@ import com.kodlamaio.rentACar.entities.concretes.Car;
 @RestController
 @RequestMapping("/api/cars")
 public class CarsControllers {
-	@Autowired
+
 	private CarService carService;
+	
+
+	public CarsControllers(CarService carService) {
+		super();
+		this.carService = carService;
+	}
 
 	@PostMapping("/add")
 	public Result add(@RequestBody @Valid CreateCarRequest createCarRequest) {
+	
 		return carService.add(createCarRequest);
+		
 	}
-
-	@GetMapping("/getById")
-	public DataResult<Car> getbyid(@RequestBody ReadCarResponse readCarResponse) {
-		return this.carService.getById(readCarResponse);
+	
+	@PostMapping("/delete")
+	public Result delete(@RequestBody DeleteCarRequest deleteCarRequest) {
+		return this.carService.delete(deleteCarRequest);
 	}
 
 	@PostMapping("/update")
@@ -43,9 +50,11 @@ public class CarsControllers {
 		return this.carService.update(updateCarRequest);
 	}
 
-	@PostMapping("/delete")
-	public Result delete(@RequestBody DeleteCarRequest deleteCarRequest) {
-		return this.carService.delete(deleteCarRequest);
+	
+	
+	@GetMapping("/getById")
+	public DataResult<Car> getById(@RequestBody ReadCarResponse readCarResponse) {
+		return this.carService.getById(readCarResponse);
 	}
 
 	@GetMapping("/getAll")

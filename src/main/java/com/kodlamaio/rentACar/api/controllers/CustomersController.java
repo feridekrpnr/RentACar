@@ -5,7 +5,6 @@ import java.util.List;
 
 import javax.validation.Valid;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,8 +25,14 @@ import com.kodlamaio.rentACar.entities.concretes.Customer;
 @RestController
 @RequestMapping("/api/customers")
 public class CustomersController {
-	@Autowired
+
 	private CustomerService customerService;
+	
+
+	public CustomersController(CustomerService customerService) {
+		super();
+		this.customerService = customerService;
+	}
 
 	@PostMapping("/add")
 	public Result add(@RequestBody @Valid CreateCustomerRequest createCustomerRequest)
@@ -46,7 +51,7 @@ public class CustomersController {
 	}
 
 	@GetMapping("/getById")
-	public DataResult<Customer> getbyid(@RequestBody ReadCustomerResponse readCustomerResponse) {
+	public DataResult<Customer> getById(@RequestBody ReadCustomerResponse readCustomerResponse) {
 		return this.customerService.getById(readCustomerResponse);
 	}
 
@@ -57,20 +62,20 @@ public class CustomersController {
 	}
 
 	@GetMapping("/getAllByPage")
-	DataResult<List<GetAllCustomersResponse>> getAll(int pageNo, int pageSize) {
-		return this.customerService.getAll(pageNo, pageSize);
+	DataResult<List<GetAllCustomersResponse>> getAllByPage(int pageNo, int pageSize) {
+		return this.customerService.getAllByPage(pageNo, pageSize);
 	}
 
-	@GetMapping("/getAllFilter")
+	@GetMapping("/getAllFilterCustomers")
 	DataResult<List<GetAllCustomersFilterResponse>> getAllFilterCustomers() {
 		return this.customerService.getAllFilterCustomers();
 	}
 	@GetMapping("/getCustomerAddressById")
 	DataResult<String>getCustomerAddressById(ReadCustomerResponse readCustomerResponse) {
-		return this.customerService.GetCustomerAddressById(readCustomerResponse);
+		return this.customerService.getCustomerAddressById(readCustomerResponse);
 	}
 	@GetMapping("/getCustomerInvoiceAddressById")
 	DataResult<String>getCustomerInvoiceAddressById(ReadCustomerResponse readCustomerResponse) {
-		return this.customerService.GetCustomerInvoiceAddressById(readCustomerResponse);
+		return this.customerService.getCustomerInvoiceAddressById(readCustomerResponse);
 	}
 }

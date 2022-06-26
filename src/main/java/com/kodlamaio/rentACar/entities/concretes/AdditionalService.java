@@ -22,9 +22,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name="additional_service")
+@Table(name="additional_services")  
 
-public class AdditionalService {
+public class AdditionalService {  //OrderedAdditionalItem
 	@Id()
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="id")
@@ -41,7 +41,7 @@ public class AdditionalService {
 	private AdditionalItem additionalItem;
 	
 	@OneToMany(mappedBy = "additionalService")
-	private List<RentalDetail> rentalDetails;
+	private List<Rental> rentals;
 	
 	
 }

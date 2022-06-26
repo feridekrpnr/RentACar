@@ -14,16 +14,17 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CreateCarRequest {
+	
+	@Min(20)
+	private double dailyPrice;
 	@NotEmpty
 	@Size(min=2,max=20)
 	private String description;
-	@Min(20)
-	private double dailyPrice;
-	private String plate;
 	private int brandId;
 	private int colorId;
-	private String pickupCity;
-	private String returnCityId;
-	private int minFindexScore;
+	private String plate;
 	private double kilometer;
+	private String statusInformation;
+	private int minFindexScore;
+	
 }

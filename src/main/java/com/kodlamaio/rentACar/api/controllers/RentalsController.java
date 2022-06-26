@@ -31,18 +31,22 @@ public class RentalsController {
 	public Result add(@RequestBody CreateRentalRequest createRentalRequest) {
     	return this.rentalService.add(createRentalRequest);
     }
-    @GetMapping("/getById")
-	public DataResult<Rental> getbyid(@RequestBody ReadRentalResponse readRentalResponse) {
-		return this.rentalService.getById(readRentalResponse);
-	}
+   
     @PostMapping("/delete")
     public Result delete(@RequestBody DeleteRentalRequest deleteRentalRequest) {
     	return this.rentalService.delete(deleteRentalRequest);
     }
+    
     @PostMapping("/update")
     public Result update(@RequestBody UpdateRentalRequest updeteRentalRequest) {
     	return this.rentalService.update(updeteRentalRequest);
     }
+    
+    @GetMapping("/getById")
+   	public DataResult<Rental> getById(@RequestBody ReadRentalResponse readRentalResponse) {
+   		return this.rentalService.getById(readRentalResponse);
+   	}
+    
     @GetMapping("/getAll")
     public DataResult<List<GetAllRentalsResponse>> getAll() {
     	return this.rentalService.getAll();

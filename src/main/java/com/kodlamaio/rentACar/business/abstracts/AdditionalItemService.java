@@ -12,13 +12,10 @@ import com.kodlamaio.rentACar.core.utilities.results.Result;
 import com.kodlamaio.rentACar.entities.concretes.AdditionalItem;
 
 public interface AdditionalItemService {
+	
 	Result add(CreateAdditionalItemRequest createAdditionalItemRequest);
-
 	Result delete(DeleteAdditionalItemRequest deleteAdditionalItemRequest);
-
 	Result update(UpdateAdditionalItemRequest updateAdditionalItemRequest);
-
 	DataResult<List<GetAllAdditionalItemsResponse>> getAll();
-
 	DataResult<AdditionalItem> getById(ReadAdditionalItemResponse readAdditionalItemResponse);
 }

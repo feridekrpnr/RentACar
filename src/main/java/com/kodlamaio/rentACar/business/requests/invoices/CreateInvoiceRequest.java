@@ -10,5 +10,5 @@ import lombok.NoArgsConstructor;
 public class CreateInvoiceRequest {
     private int id;
 	private String invoiceNumber;
-	private int rentalDetailId;
+	private int rentalId;
 }

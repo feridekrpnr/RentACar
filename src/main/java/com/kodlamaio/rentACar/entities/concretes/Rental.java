@@ -48,13 +48,17 @@ public class Rental {
 	private double totalPrice;
  
 	@ManyToOne
-	@JoinColumn(name = "car_id")
+	@JoinColumn(name = "car_id")  
 	private Car car;
 	
 	@ManyToOne
 	@JoinColumn(name="customer_id")
-	private Customer customerId;
+	private Customer customer;
 	
-	@OneToMany(mappedBy ="rental" )
-	private List<RentalDetail> rentalDetails;
+	@ManyToOne
+	@JoinColumn(name="additionalService_id")
+	private AdditionalService additionalService;
+	
+	@OneToMany(mappedBy = "rental")
+	List<Invoice>invoices;
 }

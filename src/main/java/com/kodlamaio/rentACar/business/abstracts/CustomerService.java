@@ -19,10 +19,8 @@ public interface CustomerService {
 	Result update(UpdateCustomerRequest updateCustomerRequest);
 	DataResult<Customer>getById(ReadCustomerResponse readCustomerResponse);
 	DataResult<List<GetAllCustomersResponse>> getAll();
-	DataResult<List<GetAllCustomersResponse>> getAll(int pageNo,int pageSize);
+	DataResult<List<GetAllCustomersResponse>> getAllByPage(int pageNo,int pageSize);
 	DataResult<List<GetAllCustomersFilterResponse>> getAllFilterCustomers();
-
-	
-	DataResult<String>GetCustomerAddressById(ReadCustomerResponse readCustomerResponse);
-	DataResult<String>GetCustomerInvoiceAddressById(ReadCustomerResponse readCustomerResponse);
+	DataResult<String>getCustomerAddressById(ReadCustomerResponse readCustomerResponse);
+	DataResult<String>getCustomerInvoiceAddressById(ReadCustomerResponse readCustomerResponse);
 }

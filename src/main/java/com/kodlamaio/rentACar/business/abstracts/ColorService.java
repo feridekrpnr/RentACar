@@ -17,7 +17,6 @@ public interface ColorService {
 	Result delete(DeleteColorRequest deleteColorRequest);
 	Result update(UpdateColorRequest updateColorRequest);
 	DataResult<Color> getById(ReadColorResponse readColorResponse);
-
 	DataResult<List<GetAllColorsResponse>> getAll();	
 
 }

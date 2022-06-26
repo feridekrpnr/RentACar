@@ -30,8 +30,6 @@ public class Address {
     @Column(name="invoiceAddress")
 	private String invoiceAddress;
     
-
-	
 	@OneToMany(mappedBy = "address")
 	private List<Customer> customers;
 

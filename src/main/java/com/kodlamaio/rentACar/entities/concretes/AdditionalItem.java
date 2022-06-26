@@ -7,10 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Table;
 import javax.persistence.OneToMany;
-
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,8 +18,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@JsonIgnoreProperties({"hibernateLazyInitializer","handler","additionalServices"})
-@Table(name="additional_item")
+//@JsonIgnoreProperties({"hibernateLazyInitializer","handler","additionalServices"})
+@Table(name="additional_items")
 public class AdditionalItem {
 	@Id()
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,7 +33,7 @@ public class AdditionalItem {
 	private String description;
 	
 	@Column(name="price")
-	private Integer price;
+	private int price;
 	
 	@OneToMany(mappedBy = "additionalItem")
 	List<AdditionalService> additionalServices;

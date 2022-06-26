@@ -30,21 +30,28 @@ import com.kodlamaio.rentACar.entities.concretes.Customer;
 
 @Service
 public class RentalManager implements RentalService {
-	@Autowired
 	private RentalRepository rentalRepository;
-	@Autowired
 	private CarRepository carRepository;
-	@Autowired
-	private ModelMapperService mapper;
-	@Autowired
+	private ModelMapperService modelMapperService;
 	private FindexServiceAdapter adapter;
-	@Autowired
 	private CustomerRepository customerRepository;
+	
+	
+	@Autowired
+	public RentalManager(RentalRepository rentalRepository, CarRepository carRepository, ModelMapperService modelMapperService,
+			FindexServiceAdapter adapter, CustomerRepository customerRepository) {
+		super();
+		this.rentalRepository = rentalRepository;
+		this.carRepository = carRepository;
+		this.modelMapperService = modelMapperService;
+		this.adapter = adapter;
+		this.customerRepository = customerRepository;
+	}
 
 	@Override
 	public Result add(CreateRentalRequest createRentalRequest) {
 		if (checkIfCarState(createRentalRequest.getCarId())) {
-			Rental rental = this.mapper.forRequest().map(createRentalRequest, Rental.class);
+			Rental rental = this.modelMapperService.forRequest().map(createRentalRequest, Rental.class);
 
 			if (this.checkIfDatesAreCorrect(rental.getPickupDate(), rental.getReturnDate())) {
 				long dayDifference = (rental.getReturnDate().getTime() - rental.getPickupDate().getTime());
@@ -60,7 +67,7 @@ public class RentalManager implements RentalService {
 				}
 				if (checkFindexMinValue(car.getMinFindexScore(), customer.getTcNo())) {
 					rentalRepository.save(rental);
-					car.setStatusInformation(3);
+					car.setStatusInformation("");
 					return new Result(true, "eklendi");
 
 				} else {
@@ -74,14 +81,14 @@ public class RentalManager implements RentalService {
 
 	@Override
 	public Result delete(DeleteRentalRequest deleteRentalRequest) {
-		Rental rental = this.mapper.forRequest().map(deleteRentalRequest, Rental.class);
+		Rental rental = this.modelMapperService.forRequest().map(deleteRentalRequest, Rental.class);
 		this.rentalRepository.delete(rental);
 		return new SuccessResult("RENTAL.DELETED");
 	}
 
 	@Override
 	public Result update(UpdateRentalRequest updateRentalRequest) {
-		Rental rental = this.mapper.forRequest().map(updateRentalRequest, Rental.class);
+		Rental rental = this.modelMapperService.forRequest().map(updateRentalRequest, Rental.class);
 		Car car = this.carRepository.findById(updateRentalRequest.getCarId()).get();
 
 		long dayDifference = (rental.getReturnDate().getTime() - rental.getPickupDate().getTime());
@@ -96,7 +103,7 @@ public class RentalManager implements RentalService {
 
 	@Override
 	public DataResult<Rental> getById(ReadRentalResponse readRentalResponse) {
-		Rental item = this.mapper.forResponse().map(readRentalResponse, Rental.class);
+		Rental item = this.modelMapperService.forResponse().map(readRentalResponse, Rental.class);
 		item = this.rentalRepository.findById(readRentalResponse.getId());
 		return new SuccessDataResult<Rental>(item);
 	}
@@ -105,7 +112,7 @@ public class RentalManager implements RentalService {
 	public DataResult<List<GetAllRentalsResponse>> getAll() {
 		List<Rental> rentals = this.rentalRepository.findAll();
 		List<GetAllRentalsResponse> response = rentals.stream()
-				.map(rental -> this.mapper.forResponse().map(rental, GetAllRentalsResponse.class))
+				.map(rental -> this.modelMapperService.forResponse().map(rental, GetAllRentalsResponse.class))
 				.collect(Collectors.toList());
 		return new SuccessDataResult<List<GetAllRentalsResponse>>(response);
 	}
@@ -123,7 +130,7 @@ public class RentalManager implements RentalService {
 
 	private boolean checkIfCarState(int id) {
 		Car car = this.carRepository.findById(id).get();
-		if (car.getStatusInformation() == 1) {
+		if (car.getStatusInformation() == "available") {
 			return true;
 		}
 		return false;

@@ -16,46 +16,46 @@ import com.kodlamaio.rentACar.business.responses.additionalitems.GetAllAdditiona
 import com.kodlamaio.rentACar.business.responses.additionalitems.ReadAdditionalItemResponse;
 import com.kodlamaio.rentACar.core.utilities.results.DataResult;
 import com.kodlamaio.rentACar.core.utilities.results.Result;
-import com.kodlamaio.rentACar.core.utilities.results.SuccessResult;
 import com.kodlamaio.rentACar.entities.concretes.AdditionalItem;
 
 @RestController
 @RequestMapping("api/additionalitems")
 public class AdditionalItemsController {
-	private AdditionalItemService additionalService;
+	
+	private AdditionalItemService additionalItemService;
 
-	public AdditionalItemsController(AdditionalItemService additionalService) {
-		this.additionalService = additionalService;
+	public AdditionalItemsController(AdditionalItemService additionalItemService) {
+		this.additionalItemService = additionalItemService;
 	}
 
 	@PostMapping("/add")
 	public Result add(@RequestBody CreateAdditionalItemRequest createAdditionalItemRequest) {
-		additionalService.add(createAdditionalItemRequest);
-		return new SuccessResult();
+		return this.additionalItemService.add(createAdditionalItemRequest);
+	
+	}
+	
+
+	@PostMapping("/delete")
+	public Result delete(@RequestBody DeleteAdditionalItemRequest deleteAdditionalItemRequest) {
+		return this.additionalItemService.delete(deleteAdditionalItemRequest);
+		
 	}
 
 	@PostMapping("/update")
 	public Result update(@RequestBody UpdateAdditionalItemRequest updateAdditionalItemRequest) {
-		additionalService.update(updateAdditionalItemRequest);
-		return new SuccessResult();
+		return this.additionalItemService.update(updateAdditionalItemRequest);
+		
 	}
 
-	@PostMapping("/delete")
-	public Result update(@RequestBody DeleteAdditionalItemRequest deleteAdditionalItemRequest) {
-		additionalService.delete(deleteAdditionalItemRequest);
-		return new SuccessResult();
-	}
 
 	@GetMapping("/getById")
-	public DataResult<AdditionalItem> getbyid(@RequestBody ReadAdditionalItemResponse readAdditionalItemResponse) {
-
-		return this.additionalService.getById(readAdditionalItemResponse);
+	public DataResult<AdditionalItem> getById(@RequestBody ReadAdditionalItemResponse readAdditionalItemResponse) {
+		return this.additionalItemService.getById(readAdditionalItemResponse);
 	}
 	
 	@GetMapping("/getAll")
-	public DataResult<List<GetAllAdditionalItemsResponse>> getall() {
-
-		return this.additionalService.getAll();
+	public DataResult<List<GetAllAdditionalItemsResponse>> getAll() {
+		return this.additionalItemService.getAll();
 	}
 
 }

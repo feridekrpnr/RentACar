@@ -25,7 +25,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Entity
 @Table(name="maintenances")
-
 public class Maintenance {
 	@Id()
 	@GeneratedValue(strategy=GenerationType.IDENTITY)

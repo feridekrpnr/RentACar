@@ -37,12 +37,6 @@ public class BrandsController {
 	@PostMapping("/add")
 	public Result add(@RequestBody CreateBrandRequest createBrandRequest) {
 		return brandService.add(createBrandRequest);
-
-	}
-
-	@GetMapping("/getById")
-	public DataResult<Brand> getById(@RequestBody ReadBrandResponse readBrandResponse) {
-		return this.brandService.getById(readBrandResponse);
 	}
 
 	@PostMapping("/delete")
@@ -56,10 +50,15 @@ public class BrandsController {
 		return brandService.update(updateBrandRequest);
 
 	}
+	
+	@GetMapping("/getById")
+	public DataResult<Brand> getById(@RequestBody ReadBrandResponse readBrandResponse) {
+		return brandService.getById(readBrandResponse);
+	}
 
 	@GetMapping("/getAll")
 	public DataResult<List<GetAllBrandsResponse>> getAll() {
-		return this.brandService.getAll();
+		return brandService.getAll();
 	}
 
 }

@@ -43,7 +43,7 @@ public class Car {
 	private double kilometer;
 
 	@Column(name = "statusInformation")
-	private int statusInformation;
+	private String statusInformation= "available";
 	
 	@Column(name="min_findex_score")
 	private int minFindexScore;
@@ -59,7 +59,7 @@ public class Car {
 	@OneToMany(mappedBy = "car") //bir arabanın birden çok bakımı olabilir
 	List<Maintenance> maintenances;
 
-	@OneToMany(mappedBy = "car")
+	@OneToMany(mappedBy = "car") //bir araba birden fazla kiralanabilir
 	List<Rental> rentals;
 	
 	

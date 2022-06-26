@@ -2,7 +2,6 @@ package com.kodlamaio.rentACar.api.controllers;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,7 +24,6 @@ public class MaintenancesController {
 
 	private MaintenanceService maintenanceService;
 
-	@Autowired
 	public MaintenancesController(MaintenanceService maintenanceService) {
 		super();
 		this.maintenanceService = maintenanceService;
@@ -41,14 +39,19 @@ public class MaintenancesController {
 		return this.maintenanceService.delete(deleteMaintenanceRequest);
 	}
 
-	@GetMapping("/getById")
-	public DataResult<Maintenance> getbyid(@RequestBody ReadMaintenanceResponse readMaintenanceResponse) {
-		return this.maintenanceService.getById(readMaintenanceResponse);
-	}
-
 	@PostMapping("/update")
 	public Result update(@RequestBody UpdateMaintenanceRequest updateMaintenanceRequest) {
 		return this.maintenanceService.update(updateMaintenanceRequest);
+	}
+	
+	@PostMapping("/updateState")
+	public Result updateState(@RequestBody UpdateMaintenanceRequest updateMaintenanceRequest) {
+		return this.maintenanceService.update(updateMaintenanceRequest);
+	}
+	
+	@GetMapping("/getById")
+	public DataResult<Maintenance> getById(@RequestBody ReadMaintenanceResponse readMaintenanceResponse) {
+		return this.maintenanceService.getById(readMaintenanceResponse);
 	}
 
 	@GetMapping("/getAll")

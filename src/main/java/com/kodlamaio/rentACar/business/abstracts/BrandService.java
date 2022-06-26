@@ -19,7 +19,6 @@ public interface BrandService {
 	Result delete(DeleteBrandRequest deleteBrandRequest);
 	Result update(UpdateBrandRequest updateBrandRequest);
 	DataResult<Brand> getById(ReadBrandResponse readBrandResponse);
-
 	DataResult<List<GetAllBrandsResponse>> getAll();
 
 }

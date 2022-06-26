@@ -3,7 +3,6 @@ package com.kodlamaio.rentACar.business.concretes;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kodlamaio.rentACar.business.abstracts.InvoiceService;
@@ -20,28 +19,33 @@ import com.kodlamaio.rentACar.core.utilities.results.Result;
 import com.kodlamaio.rentACar.core.utilities.results.SuccessDataResult;
 import com.kodlamaio.rentACar.core.utilities.results.SuccessResult;
 import com.kodlamaio.rentACar.dataAccess.abstracts.InvoiceRepository;
-import com.kodlamaio.rentACar.dataAccess.abstracts.RentalDetailRepository;
+import com.kodlamaio.rentACar.dataAccess.abstracts.RentalRepository;
 import com.kodlamaio.rentACar.entities.concretes.Invoice;
-import com.kodlamaio.rentACar.entities.concretes.RentalDetail;
+import com.kodlamaio.rentACar.entities.concretes.Rental;
 
 @Service
 public class InvoiceManager implements InvoiceService {
-	@Autowired
-	InvoiceRepository invoiceRepository;
-	@Autowired
-	ModelMapperService modelMapperService;
-
-	@Autowired
-	RentalDetailRepository rentalDetailRepository;
+	
+	private InvoiceRepository invoiceRepository;
+	private ModelMapperService modelMapperService;
+	private RentalRepository rentalRepository;
+	
+	public InvoiceManager(InvoiceRepository invoiceRepository, ModelMapperService modelMapperService,
+			RentalRepository rentalRepository) {
+		super();
+		this.invoiceRepository = invoiceRepository;
+		this.modelMapperService = modelMapperService;
+		this.rentalRepository = rentalRepository;
+	}
+	
 
 	@Override
 	public Result add(CreateInvoiceRequest createInvoiceRequest) {
 		Invoice invoice = this.modelMapperService.forRequest().map(createInvoiceRequest, Invoice.class);
-		RentalDetail rentalDetail = this.rentalDetailRepository.findById(createInvoiceRequest.getRentalDetailId())
-				.get();
-		invoice.setRentalDetail(rentalDetail);
+		Rental rental= this.rentalRepository.findById(createInvoiceRequest.getRentalId());
+		invoice.setRental(rental);
 		if (!checkIfInvoicesNumber(invoice.getInvoiceNumber())) {
-			invoice.setState(true);
+			invoice.getState();
 			invoiceRepository.save(invoice);
 			return new SuccessResult("Fatura eklendi");
 		} else {
@@ -50,9 +54,10 @@ public class InvoiceManager implements InvoiceService {
 		}
 	}
 
+
 	@Override
 	public Result delete(DeleteInvoiceRequest deleteInvoiceRequest) {
-		this.invoiceRepository.deleteById(deleteInvoiceRequest.getId());
+		this.invoiceRepository.findById(deleteInvoiceRequest.getId());
 		return new SuccessResult("deleted");
 	}
 
@@ -96,7 +101,7 @@ public class InvoiceManager implements InvoiceService {
 	public Result cancelInvoice(StateUpdateInvoiceRequest stateUpdateInvoiceRequest) {
 		Invoice invoice = modelMapperService.forRequest().map(stateUpdateInvoiceRequest, Invoice.class);
 		if (checkIfInvoicesNumber(invoice.getInvoiceNumber())) {
-			invoice.setState(false);
+			invoice.setState(2);
 			invoiceRepository.save(invoice);
 			return new SuccessResult("Fatura pasife geçilmiştir.");
 		}

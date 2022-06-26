@@ -12,15 +12,13 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonIgnoreProperties({"hibernateLazyInitializer","handler","rentals"})
+//@JsonIgnoreProperties({"hibernateLazyInitializer","handler","rentals"})
 @Entity
 @Table(name="customers")
 public class Customer {
@@ -47,9 +45,8 @@ public class Customer {
 	@Column(name="password")
 	private String password;
 	
-	@OneToMany(mappedBy ="customerId")
+	@OneToMany(mappedBy ="customer")
 	private List<Rental>rentals;
-	
 	
 	@ManyToOne
 	@JoinColumn(name="address_id")

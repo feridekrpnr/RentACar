@@ -25,22 +25,29 @@ import com.kodlamaio.rentACar.entities.concretes.Maintenance;
 
 @Service
 public class MaintenanceManager implements MaintenanceService {
-	@Autowired
+	
 	private MaintenanceRepository maintenanceRepository;
-	@Autowired
 	private CarRepository carRepository;
+	private ModelMapperService modelMapperService;
+	
+	
 	@Autowired
-	private ModelMapperService mapper;
+	public MaintenanceManager(MaintenanceRepository maintenanceRepository, CarRepository carRepository,
+			ModelMapperService modelMapperService) {
+		super();
+		this.maintenanceRepository = maintenanceRepository;
+		this.carRepository = carRepository;
+		this.modelMapperService = modelMapperService;
+	}
 
 	@Override
 	public Result add(CreateMaintenanceRequest createMaintenanceRequest) {
 		if (checkIfCarState(createMaintenanceRequest.getCarId())) {
-			Maintenance maintenance = this.mapper.forResponse().map(createMaintenanceRequest, Maintenance.class);
+			Maintenance maintenance = this.modelMapperService.forResponse().map(createMaintenanceRequest, Maintenance.class);
 			Car car = this.carRepository.findById(createMaintenanceRequest.getCarId()).get();
 			car.setId(createMaintenanceRequest.getCarId());
-			car.setStatusInformation(2);
+			car.setStatusInformation("");
 			maintenance.setCar(car);
-
 			this.maintenanceRepository.save(maintenance);
 			return new SuccessResult("CAR.IS.IN.MAINTENANCE");
 		}
@@ -50,14 +57,14 @@ public class MaintenanceManager implements MaintenanceService {
 	@Override
 	public Result delete(DeleteMaintenanceRequest deleteMaintenanceRequest) {
 
-		Maintenance maintenance = this.mapper.forRequest().map(deleteMaintenanceRequest, Maintenance.class);
+		Maintenance maintenance = this.modelMapperService.forRequest().map(deleteMaintenanceRequest, Maintenance.class);
 		this.maintenanceRepository.delete(maintenance);
 		return new SuccessResult("MAİNTENANCE.DELETED");
 	}
 
 	@Override
 	public Result update(UpdateMaintenanceRequest updateMaintenanceRequest) {
-		Maintenance maintenance = this.mapper.forRequest().map(updateMaintenanceRequest, Maintenance.class);
+		Maintenance maintenance = this.modelMapperService.forRequest().map(updateMaintenanceRequest, Maintenance.class);
 		// state haric güncelleme yapmak için
 		this.maintenanceRepository.save(maintenance);
 		return new SuccessResult();
@@ -65,7 +72,7 @@ public class MaintenanceManager implements MaintenanceService {
 
 	@Override
 	public DataResult<Maintenance> getById(ReadMaintenanceResponse readMaintenanceResponse) {
-		Maintenance item = this.mapper.forResponse().map(readMaintenanceResponse, Maintenance.class);
+		Maintenance item = this.modelMapperService.forResponse().map(readMaintenanceResponse, Maintenance.class);
 		item = maintenanceRepository.findById(readMaintenanceResponse.getId()).get();
 		return new SuccessDataResult<Maintenance>(item);
 
@@ -75,30 +82,21 @@ public class MaintenanceManager implements MaintenanceService {
 	public DataResult<List<GetAllMaintenancesResponse>> getAll() {
 		List<Maintenance> maintenances = this.maintenanceRepository.findAll();
 		List<GetAllMaintenancesResponse> response = maintenances.stream()
-				.map(maintenance -> this.mapper.forResponse().map(maintenance, GetAllMaintenancesResponse.class))
+				.map(maintenance -> this.modelMapperService.forResponse().map(maintenance, GetAllMaintenancesResponse.class))
 				.collect(Collectors.toList());
 		return new SuccessDataResult<List<GetAllMaintenancesResponse>>(response);
 	}
 
-	@Override
-	public Result updateState(UpdateMaintenanceRequest updateMaintenanceRequest) { // state güncellemek icin
-		Car car = this.carRepository.findById(updateMaintenanceRequest.getCarId()).get();
-		if (car.getStatusInformation() == 1) {
-			car.setStatusInformation(2);
-		} else {
-			car.setStatusInformation(1);
-		}
-		this.carRepository.save(car);
-		return new SuccessResult();
-	}
-
+	
 	private boolean checkIfCarState(int id) {
 		Car car = this.carRepository.findById(id).get();
-		if (car.getStatusInformation() == 1) {
+		if (car.getStatusInformation() == "") {
 			return true;
 		}
 		return false;
 
 	}
+
+	
 
 }

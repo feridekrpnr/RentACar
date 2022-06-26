@@ -22,6 +22,7 @@ import com.kodlamaio.rentACar.entities.concretes.AdditionalService;
 @RestController
 @RequestMapping("api/additionalservices")
 public class AdditionalServicesController {
+	
 	private AdditionalServiceService additionalService;
 
 	public AdditionalServicesController(AdditionalServiceService additionalService) {
@@ -33,6 +34,12 @@ public class AdditionalServicesController {
 		additionalService.add(additionalServiceRequest);
 		return new SuccessResult();
 	}
+	
+	@PostMapping("/delete")
+	public Result delete(@RequestBody DeleteAdditionalServiceRequest deleteAdditionalServiceRequest) {
+		additionalService.delete(deleteAdditionalServiceRequest);
+		return new SuccessResult();
+	}
 
 	@PostMapping("/update")
 	public Result update(@RequestBody UpdateAdditionalServiceRequest updateAdditionalServiceRequest) {
@@ -40,22 +47,15 @@ public class AdditionalServicesController {
 		return new SuccessResult();
 	}
 
-	@PostMapping("/delete")
-	public Result delete(@RequestBody DeleteAdditionalServiceRequest deleteAdditionalServiceRequest) {
-		additionalService.delete(deleteAdditionalServiceRequest);
-		return new SuccessResult();
-	}
 
 	@GetMapping("/getById")
-	public DataResult<AdditionalService> getbyid(@RequestBody ReadAdditionalServicesResponse readAdditionalServicesResponse) {
-		
+	public DataResult<AdditionalService> getById(@RequestBody ReadAdditionalServicesResponse readAdditionalServicesResponse) {
 		return this.additionalService.getById(readAdditionalServicesResponse);
 		
 	}
 	
 	@GetMapping("/getAll")
-	public DataResult<List<GetAllAdditionalServicesResponse>> getall() {
-
+	public DataResult<List<GetAllAdditionalServicesResponse>> getAll() {
 		return this.additionalService.getAll();
 		
 	}

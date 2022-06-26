@@ -28,12 +28,12 @@ public class Invoice {
   @Column(name="invoice_number")
   String invoiceNumber;
   
-  @Column(name="state")
-  private boolean state;
+  @Column(name="state") 
+  private int state;  //int yap
   
   @ManyToOne
-  @JoinColumn(name="rentalDetails_id")
-  private RentalDetail rentalDetail;
+  @JoinColumn(name="rental_id")
+  private Rental rental;
   
   
 }

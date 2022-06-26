@@ -15,6 +15,7 @@ public interface AddressService {
     Result add(CreateAddressRequest createAddressRequest);
     Result delete(DeleteAddressRequest deleteAddressRequest);
     Result update(UpdateAddressRequest updateAddressRequest);
-    DataResult<List<GetAllAddressesResponse>>getAll();
     DataResult<Address> getById(ReadAddressResponse readAddressResponse);
+    DataResult<List<GetAllAddressesResponse>>getAll();
+   
 }
