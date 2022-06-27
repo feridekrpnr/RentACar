@@ -35,29 +35,32 @@ public class AdditionalItemManager implements AdditionalItemService {
 	@Override
 	public Result add(CreateAdditionalItemRequest createAdditionalItemRequest) {
 		checkIfBrandExistsByName(createAdditionalItemRequest.getName());
-		AdditionalItem addItem = this.modelMapperService.forRequest().map(createAdditionalItemRequest, AdditionalItem.class);
-		this.additionalItemRepository.save(addItem);
-		return new SuccessResult(addItem.getName() + " isimli ek özellik başarıyla eklenmiştir.");
+		AdditionalItem addditionalItem = this.modelMapperService.forRequest().map(createAdditionalItemRequest, AdditionalItem.class);
+		additionalItemRepository.save(addditionalItem);
+		return new SuccessResult(addditionalItem.getName() + " added successfully");
 	}
 
 	@Override
 	public Result delete(DeleteAdditionalItemRequest deleteAdditionalItemRequest) {
-		additionalItemRepository.findById(deleteAdditionalItemRequest.getId());
-		return new SuccessResult(deleteAdditionalItemRequest.getId() + "li ek özellik başarıyla silinmiştir.");
+		checkIfAdditionalItemExistById(deleteAdditionalItemRequest.getId());
+		additionalItemRepository.deleteById(deleteAdditionalItemRequest.getId());
+		return new SuccessResult(deleteAdditionalItemRequest.getId() + " deleted sccessfully");
 	}
 
 	@Override
 	public Result update(UpdateAdditionalItemRequest updateAdditionalItemRequest) {
-		AdditionalItem addItemToUpdate = modelMapperService.forRequest().map(updateAdditionalItemRequest, AdditionalItem.class);
-		additionalItemRepository.save(addItemToUpdate);
-		return new SuccessResult(updateAdditionalItemRequest.getId() + "li ek özellik başarıyla güncellenmiştir.");
+		checkIfAdditionalItemExistById(updateAdditionalItemRequest.getId());
+		AdditionalItem additonalItem = modelMapperService.forRequest().map(updateAdditionalItemRequest, AdditionalItem.class);
+		additionalItemRepository.save(additonalItem);
+		return new SuccessResult(updateAdditionalItemRequest.getId() + " updated successfullly");
 	}
 	
 	@Override
 	public DataResult<AdditionalItem> getById(ReadAdditionalItemResponse readAdditionalItemResponse) {
-		AdditionalItem item =this.modelMapperService.forResponse().map(readAdditionalItemResponse, AdditionalItem.class);
-		item=additionalItemRepository.findById(readAdditionalItemResponse.getId()).get();
-		return new SuccessDataResult<AdditionalItem>(item);
+		checkIfAdditionalItemExistById(readAdditionalItemResponse.getId());
+		AdditionalItem addditionalItem =this.modelMapperService.forResponse().map(readAdditionalItemResponse, AdditionalItem.class);
+		addditionalItem=additionalItemRepository.findById(readAdditionalItemResponse.getId()).get();
+		return new SuccessDataResult<AdditionalItem>(addditionalItem, "  the additional item was successfully listed ");
 		
 	}
 	
@@ -65,18 +68,24 @@ public class AdditionalItemManager implements AdditionalItemService {
 	public DataResult<List<GetAllAdditionalItemsResponse>> getAll() {
 		List<AdditionalItem> items =this.additionalItemRepository.findAll();
 		List<GetAllAdditionalItemsResponse> response =items.stream().map(item->this.modelMapperService.forResponse().map(item, GetAllAdditionalItemsResponse.class)).collect(Collectors.toList());
-		return new SuccessDataResult<List<GetAllAdditionalItemsResponse>>(response);
+		return new SuccessDataResult<List<GetAllAdditionalItemsResponse>>(response, " listed successfully ");
 	}
 
 	
 
-	private void checkIfBrandExistsByName(String name) 
-	{
+	private void checkIfBrandExistsByName(String name) {
 		AdditionalItem currentItem = this.additionalItemRepository.findByName(name);
 		if (currentItem!=null) {
-			throw new BusinessException("ADDITIONAL ITEM EXİSTS");
+			throw new BusinessException("ADDITIONAL ITEM EXİST");
 		}
 		
+	}
+	
+	private void checkIfAdditionalItemExistById(int id) {
+		boolean result = additionalItemRepository.existsById(id);
+		if(result== false) {
+			throw new BusinessException("ADDITIONAL ITEM NOT EXİST");
+		}
 	}
 
 	

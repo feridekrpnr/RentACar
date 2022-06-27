@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class DeleteMaintenanceRequest {
 	private int id;
-	private Date dateSent;
-	private Date dateReturn;
+	private Date sendDate;
+	private Date returnDate;
 	private int carId;
 }

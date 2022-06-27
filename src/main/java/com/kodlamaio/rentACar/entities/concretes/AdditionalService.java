@@ -2,6 +2,7 @@ package com.kodlamaio.rentACar.entities.concretes;
 
 
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -35,6 +36,12 @@ public class AdditionalService {  //OrderedAdditionalItem
 	
 	@Column(name="total_price")
 	private double totalPrice;
+	
+	@Column(name = "send_date")
+	private Date sendDate;
+	
+	@Column(name = "return_date")
+	private Date returnDate;
 	
 	@ManyToOne
 	@JoinColumn(name = "additionalItem_id")

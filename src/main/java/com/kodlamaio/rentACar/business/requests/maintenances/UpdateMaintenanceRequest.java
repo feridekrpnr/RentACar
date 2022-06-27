@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class UpdateMaintenanceRequest {
 	private int id;
-	private Date dateSent;
-	private Date dateReturn;
+	private Date sendDate;
+	private Date returnDate;
 	private int carId;
 }

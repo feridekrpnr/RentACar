@@ -85,7 +85,7 @@ public class CarManager implements CarService {
 		checkIfCarExistById(readCarResponse.getId());
 		Car car = this.modelMapperService.forResponse().map(readCarResponse, Car.class);
 		car = carRepository.findById(readCarResponse.getId()).get();
-		return new SuccessDataResult<Car>(car, "the car was successfully listed ");
+		return new SuccessDataResult<Car>(car, " the car was successfully listed ");
 	}
 
 	@Override

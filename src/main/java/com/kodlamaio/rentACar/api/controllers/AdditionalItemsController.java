@@ -30,32 +30,32 @@ public class AdditionalItemsController {
 
 	@PostMapping("/add")
 	public Result add(@RequestBody CreateAdditionalItemRequest createAdditionalItemRequest) {
-		return this.additionalItemService.add(createAdditionalItemRequest);
+		return additionalItemService.add(createAdditionalItemRequest);
 	
 	}
 	
 
 	@PostMapping("/delete")
 	public Result delete(@RequestBody DeleteAdditionalItemRequest deleteAdditionalItemRequest) {
-		return this.additionalItemService.delete(deleteAdditionalItemRequest);
+		return additionalItemService.delete(deleteAdditionalItemRequest);
 		
 	}
 
 	@PostMapping("/update")
 	public Result update(@RequestBody UpdateAdditionalItemRequest updateAdditionalItemRequest) {
-		return this.additionalItemService.update(updateAdditionalItemRequest);
+		return additionalItemService.update(updateAdditionalItemRequest);
 		
 	}
 
 
 	@GetMapping("/getById")
 	public DataResult<AdditionalItem> getById(@RequestBody ReadAdditionalItemResponse readAdditionalItemResponse) {
-		return this.additionalItemService.getById(readAdditionalItemResponse);
+		return additionalItemService.getById(readAdditionalItemResponse);
 	}
 	
 	@GetMapping("/getAll")
 	public DataResult<List<GetAllAdditionalItemsResponse>> getAll() {
-		return this.additionalItemService.getAll();
+		return additionalItemService.getAll();
 	}
 
 }

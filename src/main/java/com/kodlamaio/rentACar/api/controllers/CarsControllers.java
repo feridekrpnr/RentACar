@@ -42,27 +42,27 @@ public class CarsControllers {
 	
 	@PostMapping("/delete")
 	public Result delete(@RequestBody DeleteCarRequest deleteCarRequest) {
-		return this.carService.delete(deleteCarRequest);
+		return carService.delete(deleteCarRequest);
 	}
 
 	@PostMapping("/update")
 	public Result update(@RequestBody UpdateCarRequest updateCarRequest) {
-		return this.carService.update(updateCarRequest);
+		return carService.update(updateCarRequest);
 	}
 
 	
 	
 	@GetMapping("/getById")
 	public DataResult<Car> getById(@RequestBody ReadCarResponse readCarResponse) {
-		return this.carService.getById(readCarResponse);
+		return carService.getById(readCarResponse);
 	}
 
 	@GetMapping("/getAll")
 	public DataResult<List<GetAllCarsResponse>> getAll() {
-		return this.carService.getAll();
+		return carService.getAll();
 	}
 	@GetMapping("/getAllFindex")
 	public DataResult<List<GetAllCarsMinFindexScoreResponse>> getAllFindex() {
-		return this.carService.getAllFindex();
+		return carService.getAllFindex();
 	}
 }
