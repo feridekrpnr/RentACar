@@ -9,5 +9,5 @@ import lombok.NoArgsConstructor;
 public class UpdateInvoiceRequest {
 	private int id;
 	private String invoiceNumber;
-	private int rentalDetailId;
+	private int rentalId;
 }

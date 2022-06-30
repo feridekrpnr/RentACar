@@ -55,10 +55,10 @@ public class Rental {
 	@JoinColumn(name="customer_id")
 	private Customer customer;
 	
-	@ManyToOne
-	@JoinColumn(name="additionalService_id")
-	private AdditionalService additionalService;
 	
 	@OneToMany(mappedBy = "rental")
-	List<Invoice>invoices;
+	List<IndividualInvoice> individualInvoices;
+	
+	@OneToMany(mappedBy = "rental")
+	List<CorporateInvoice> corporateInvoices ;
 }

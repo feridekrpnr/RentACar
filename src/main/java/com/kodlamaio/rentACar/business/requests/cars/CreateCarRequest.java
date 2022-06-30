@@ -24,7 +24,7 @@ public class CreateCarRequest {
 	private int colorId;
 	private String plate;
 	private double kilometer;
-	private String statusInformation;
+	private String statusInformation="available";
 	private int minFindexScore;
 	
 }

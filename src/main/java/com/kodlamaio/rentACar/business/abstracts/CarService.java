@@ -20,4 +20,7 @@ public interface CarService {
 	DataResult<Car> getById(ReadCarResponse readCarResponse);
 	DataResult<List<GetAllCarsResponse>> getAll();	
 	DataResult<List<GetAllCarsMinFindexScoreResponse>> getAllFindex();
+	
+	
+	
 }

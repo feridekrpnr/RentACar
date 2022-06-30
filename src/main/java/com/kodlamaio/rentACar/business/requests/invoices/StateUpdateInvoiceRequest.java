@@ -11,6 +11,6 @@ public class StateUpdateInvoiceRequest {
 	private int id;
 	private String invoiceNumber;
 	private boolean state;
-	private int rentalDetailId;
+	private int rentalId;
 
 }

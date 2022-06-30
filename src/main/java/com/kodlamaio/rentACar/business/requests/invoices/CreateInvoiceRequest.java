@@ -11,4 +11,6 @@ public class CreateInvoiceRequest {
     private int id;
 	private String invoiceNumber;
 	private int rentalId;
+	private double totalPrice;
+	private boolean state;
 }

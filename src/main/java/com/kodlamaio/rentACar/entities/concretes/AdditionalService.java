@@ -47,8 +47,11 @@ public class AdditionalService {  //OrderedAdditionalItem
 	@JoinColumn(name = "additionalItem_id")
 	private AdditionalItem additionalItem;
 	
-	@OneToMany(mappedBy = "additionalService")
-	private List<Rental> rentals;
 	
+	@OneToMany(mappedBy = "additionalService")
+	List<IndividualInvoice> individualInvoices;
+	
+	@OneToMany(mappedBy = "additionalService")
+	List<CorporateInvoice> corporateInvoices ;
 	
 }

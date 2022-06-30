@@ -1,0 +1,26 @@
+package com.kodlamaio.rentACar.business.abstracts;
+
+import java.rmi.RemoteException;
+import java.util.List;
+
+import com.kodlamaio.rentACar.business.requests.individualcustomers.CreateIndividualCustomerRequest;
+import com.kodlamaio.rentACar.business.requests.individualcustomers.DeleteIndividualCustomerRequest;
+import com.kodlamaio.rentACar.business.requests.individualcustomers.UpdateIndividualCustomerRequest;
+import com.kodlamaio.rentACar.business.responses.individualcustomers.GetAllIndividualCustomersFilterResponse;
+import com.kodlamaio.rentACar.business.responses.individualcustomers.GetAllIndividualCustomersResponse;
+import com.kodlamaio.rentACar.business.responses.individualcustomers.ReadIndividualCustomerResponse;
+import com.kodlamaio.rentACar.core.utilities.results.DataResult;
+import com.kodlamaio.rentACar.core.utilities.results.Result;
+import com.kodlamaio.rentACar.entities.concretes.IndividualCustomer;
+
+public interface IndividualCustomerService {
+	Result addIndividualCustomer(CreateIndividualCustomerRequest createIndividualCustomerRequest) throws NumberFormatException, RemoteException;
+	Result deleteIndividualCustomer(DeleteIndividualCustomerRequest deleteIndividualCustomerRequest);
+	Result updateIndividualCustomer(UpdateIndividualCustomerRequest updateIndividualCustomerRequest) throws NumberFormatException, RemoteException;
+	DataResult<IndividualCustomer>getById(ReadIndividualCustomerResponse readIndividualCustomerResponse);
+	DataResult<List<GetAllIndividualCustomersResponse>> getAll();
+	DataResult<List<GetAllIndividualCustomersResponse>> getAllByPage(int pageNo,int pageSize);
+	DataResult<List<GetAllIndividualCustomersFilterResponse>> getAllFilterIndividualCustomers();
+	DataResult<String>getIndividualCustomerAddressById(ReadIndividualCustomerResponse readIndividualCustomerResponse);
+	DataResult<String> getIndividualCustomerInvoiceAddressById(ReadIndividualCustomerResponse readIndividualCustomerResponse);
+}

@@ -4,21 +4,22 @@ import java.rmi.RemoteException;
 
 import org.springframework.stereotype.Service;
 
-import com.kodlamaio.rentACar.business.abstracts.CustomerCheckService;
-import com.kodlamaio.rentACar.entities.concretes.Customer;
+import com.kodlamaio.rentACar.business.abstracts.IndividualCustomerCheckService;
+import com.kodlamaio.rentACar.entities.concretes.IndividualCustomer;
 
 import tr.gov.nvi.tckimlik.WS.KPSPublicSoapProxy;
-
 @Service
-public class MernisServiceAdapter implements CustomerCheckService {
+public class MernisServiceAdapter implements IndividualCustomerCheckService {
 
-	public boolean CheckIfRealPerson(Customer customer) throws NumberFormatException, RemoteException {
-		
-			KPSPublicSoapProxy kpsPublicSoapProxy = new KPSPublicSoapProxy();
-			boolean result = kpsPublicSoapProxy.TCKimlikNoDogrula(Long.parseLong(customer.getTcNo()),
-					customer.getFirstName().toUpperCase(), customer.getLastName().toUpperCase(), customer.getDateOfBirth());
-			return result;
-		
-	
+	@Override
+	public boolean CheckIfRealPerson(IndividualCustomer individualCustomer) throws NumberFormatException, RemoteException {
+	KPSPublicSoapProxy kpsPublicSoapProxy = new KPSPublicSoapProxy();
+	boolean result = kpsPublicSoapProxy.TCKimlikNoDogrula(Long.parseLong(individualCustomer.getIdentityNumber()),
+			individualCustomer.getFirstName().toUpperCase(), individualCustomer.getLastName().toUpperCase(), individualCustomer.getBirthYear());
+	return result;
 	}
+
+	
+	
+	
 }

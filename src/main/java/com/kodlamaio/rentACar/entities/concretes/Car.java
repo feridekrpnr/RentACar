@@ -57,10 +57,10 @@ public class Car {
 	private Color color;
 
 	@OneToMany(mappedBy = "car") //bir arabanın birden çok bakımı olabilir
-	List<Maintenance> maintenances;
+	private List<Maintenance> maintenances;
 
 	@OneToMany(mappedBy = "car") //bir araba birden fazla kiralanabilir
-	List<Rental> rentals;
+	private List<Rental> rentals;
 	
 	
 	

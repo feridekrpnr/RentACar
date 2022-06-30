@@ -77,7 +77,7 @@ public class AdditionalServiceManager implements AdditionalServiceService {
 	public DataResult<AdditionalService> getById(ReadAdditionalServicesResponse readAdditionalServicesResponse) {
 		AdditionalService additionalService = this.modelMapperService.forResponse().map(readAdditionalServicesResponse,
 				AdditionalService.class);
-		additionalService = additionalServiceRepository.findById(readAdditionalServicesResponse.getId());
+		additionalService = additionalServiceRepository.findById(readAdditionalServicesResponse.getId()).get();
 		return new SuccessDataResult<AdditionalService>(additionalService, "additional service listed successfully");
 	}
 
